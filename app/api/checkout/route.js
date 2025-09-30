@@ -25,17 +25,17 @@ export async function POST(request) {
   try {
 
     const orderRequest = {
-      order_amount: "1",
+      order_amount: process.env.registration_fee,
       order_currency: "INR",
       customer_details: {
-        customer_id: body.userId || "guest_user",
+        customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
-        customer_email: "example@gmail.com",
-        customer_phone: "9999999999",
+        // customer_email: "example@gmail.com",
+        // customer_phone: "9999999999",
       },
       order_meta: {
         return_url:
-          "https://transfinitte.org/",
+          "https://register.transfinitte.org/",
         notify_url:
           "https://backend.transfinitte.org/api/cashfree-webhook",
 
@@ -49,14 +49,13 @@ export async function POST(request) {
     const { error: InsertErr } = await supabaseAdmin
       .from("payments")
       .insert({
-        team_id: "131825",
+        team_id: body.teamId,
         expiry_time: new Date(order.order_expiry_time),
         order_id: order.order_id,
         payment_session_id: order.payment_session_id,
         status: "Pending",
         raw_payload: order,
         created_at: new Date(),
-        
       })
       .select();
 
