@@ -21,14 +21,14 @@ export async function POST(request) {
     process.env.CASHFREE_ID,
     process.env.CASHFREE_SECRET
   );
-
+  console.log(body);
   try {
 
     const orderRequest = {
       order_amount: '2',
       order_currency: "INR",
       customer_details: {
-        customer_id: '123456' || "guest_user",
+        customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
         customer_email: "example@gmail.com",
         customer_phone: body.teamName || "Anonymous",
@@ -42,14 +42,16 @@ export async function POST(request) {
       },
       order_note: "Team registration payment",
     };
-
+    console.log("--------------------------------------");
+    console.log(body);
+    console.log("------------------------------------");
     const response = await cashfree.PGCreateOrder(orderRequest);
     const order = response.data;
     console.log("Cashfree Order Response:", order);
     const { error: InsertErr } = await supabaseAdmin
       .from("payments")
       .insert({
-        team_id: '123456',
+        team_id: body.teamId,
         expiry_time: new Date(order.order_expiry_time),
         order_id: order.order_id,
         payment_session_id: order.payment_session_id,
