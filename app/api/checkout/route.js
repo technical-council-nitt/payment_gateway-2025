@@ -29,8 +29,8 @@ export async function POST(request) {
       order_currency: "INR",
       customer_details: {
         customer_id: body.teamId || "guest_user",
-        // customer_name: body.teamName || "Anonymous",
-        // customer_email: "example@gmail.com",
+        customer_name: body.teamName || "Anonymous",
+        customer_email: "example@gmail.com",
         customer_phone: body.teamName || "Anonymous",
       },
       order_meta: {
