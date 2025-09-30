@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cashfreepayments/cashfree-js": "^1.0.5",
+    "@supabase/supabase-js": "^2.58.0",
     "axios": "^1.12.0",
     "cashfree-pg": "^5.0.8",
     "crypto": "^1.0.1",
