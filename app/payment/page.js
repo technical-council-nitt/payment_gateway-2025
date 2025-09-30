@@ -10,7 +10,7 @@ function Checkout() {
   useEffect(() => {
     const init = async () => {
 
-      cashfreeRef.current = await load({ mode: "sandbox" });
+      cashfreeRef.current = await load({ mode: "production" });
 
 
       try {
@@ -45,7 +45,8 @@ function Checkout() {
 
     const checkoutOptions = {
       paymentSessionId: order.payment_session_id,
-      redirectTarget: document.getElementById("cf_checkout"),
+      // redirectTarget: document.getElementById("cf_checkout"),
+      redirect : true,
       appearance: {
         width: "425px",
         height: "700px",
@@ -91,7 +92,6 @@ function Checkout() {
       >
         Pay Now
       </button>
-      <div id="cf_checkout"></div>
     </div>
   );
 }

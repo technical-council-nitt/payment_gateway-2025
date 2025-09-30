@@ -35,9 +35,9 @@ export async function POST(request) {
       },
       order_meta: {
         return_url:
-          "http://transfinitte.org/",
+          "https://transfinitte.org/",
         notify_url:
-          "http://backend_transfinitte.transfinitte.org/api/cashfree-webhook",
+          "https://backend.transfinitte.org/api/cashfree-webhook",
 
       },
       order_note: "Team registration payment",
