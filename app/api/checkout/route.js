@@ -25,7 +25,7 @@ export async function POST(request) {
   try {
 
     const orderRequest = {
-      order_amount: process.env.registration_fee,
+      order_amount: '2',
       order_currency: "INR",
       customer_details: {
         customer_id: body.teamId || "guest_user",
