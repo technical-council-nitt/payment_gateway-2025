@@ -9,7 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.5",
     "axios": "^1.12.0",
+    "cashfree-pg": "^5.0.8",
     "crypto": "^1.0.1",
     "mongoose": "^8.18.1",
     "next": "15.5.3",

@@ -1,48 +1,99 @@
-"use client"
-import Image from "next/image";
-import Script from "next/script";
+"use client";
 
-export default function Home() {
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const response = await fetch('/api/checkout', {
-            method: 'POST',
-            body: new FormData(event.target)
+import { useEffect, useRef, useState } from "react";
+import { load } from "@cashfreepayments/cashfree-js";
+
+function Checkout() {
+  const [order, setOrder] = useState(null);
+  const cashfreeRef = useRef(null);
+
+  useEffect(() => {
+    const init = async () => {
+
+      cashfreeRef.current = await load({ mode: "sandbox" });
+
+
+      try {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: "user-id",
+            teamName: "team-name",
+          }),
         });
-        const data = await response.json();
-        if (response.ok) {
-            const options = {
-                key: process.env.RAZORPAY_ID, // Enter the Key ID generated from the Dashboard
-                amount: data.amount.toString(),
-                currency: data.currency,
-                name: "Acme Corp",
-                description: "Test Transaction",
-                order_id: data.id,
-                handler: function (response) {
-                    alert("Payment successful!");
-                    console.log(response);
-                },
-            };
-        
-        const rzp1 = new Razorpay(options);
-        rzp1.open();
-        }
+
+        const data = await res.json();
+        setOrder(data);
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      }
+    };
+
+    init();
+  }, []);
+
+  const doPayment = async () => {
+    if (!cashfreeRef.current) {
+      console.error("Cashfree SDK not initialized yet");
+      return;
+    }
+    if (!order?.payment_session_id) {
+      console.error("Order not ready yet");
+      return;
     }
 
-  return (
-    <>
-    <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1 className="text-3xl font-bold underline">Confirm Payment:</h1>
-      <form onSubmit={handleSubmit} method="POST" className="flex flex-col items-center mt-4">
-       
-       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-         Proceed 180
-       </button>
-      </form>
-    </div>
-    </>
-   
+    const checkoutOptions = {
+      paymentSessionId: order.payment_session_id,
+      redirectTarget: document.getElementById("cf_checkout"),
+      appearance: {
+        width: "425px",
+        height: "700px",
+      },
+    };
 
+    cashfreeRef.current.checkout(checkoutOptions).then(async (result) => {
+      if (result.error) {
+        console.error("Payment error:", result.error);
+      }
+      if (result.redirect) {
+        console.log("Payment will be redirected");
+      }
+      if (result.paymentDetails) {
+        console.log("Payment completed:", result.paymentDetails);
+        console.log(order);
+       
+        // const res = await fetch("/api/checkout", {
+        //   method: "PUT",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     cashfree_order_id: order.id,
+        //     userId: "user-id",
+        //     teamName: "team-name",
+        //   }),
+        // });
+        // const data = await res.json();
+        // console.log("Payment status updated:", data);
+        console.log("Payment completed:", result.paymentDetails.paymentMessage);
+      }
+    });
+  };
+
+  return (
+    <div className="row">
+      <p>Click below to open the checkout page here</p>
+      <button
+        type="button"
+        className="btn btn-primary"
+        id="renderBtn"
+        onClick={doPayment}
+        disabled={!order}
+      >
+        Pay Now
+      </button>
+      <div id="cf_checkout"></div>
+    </div>
   );
 }
+
+export default Checkout;
