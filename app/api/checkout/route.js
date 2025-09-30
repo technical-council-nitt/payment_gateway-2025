@@ -17,7 +17,7 @@ export async function POST(request) {
   const body = await request.json();
   console.log(body);
   const cashfree = new Cashfree(
-    CFEnvironment.SANDBOX,
+    CFEnvironment.PRODUCTION,
     process.env.CASHFREE_ID,
     process.env.CASHFREE_SECRET
   );
