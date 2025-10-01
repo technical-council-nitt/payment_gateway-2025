@@ -35,7 +35,7 @@ export async function POST(request) {
       },
       order_meta: {
         return_url:
-          "https://register.transfinitte.org/",
+          "https://register.transfinitte.com/",
         notify_url:
           "https://backend.transfinitte.org/api/cashfree-webhook",
 
