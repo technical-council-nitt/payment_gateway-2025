@@ -31,7 +31,7 @@ export async function POST(request) {
         customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
         customer_email: "example@gmail.com",
-        customer_phone: `Team ID - ${body.teamId}`,
+        customer_phone: `9999999999`,
       },
       order_meta: {
         return_url:
