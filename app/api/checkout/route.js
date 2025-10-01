@@ -28,7 +28,7 @@ export async function POST(request) {
       order_amount: "1",
       order_currency: "INR",
       customer_details: {
-        customer_id: body.userId || "guest_user",
+        customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
         customer_email: "example@gmail.com",
         customer_phone: "9999999999",
@@ -51,7 +51,7 @@ export async function POST(request) {
     const { error: InsertErr } = await supabaseAdmin
       .from("payments")
       .insert({
-        team_id: "131825",
+        team_id: body.teamId,
         expiry_time: new Date(order.order_expiry_time),
         order_id: order.order_id,
         payment_session_id: order.payment_session_id,
