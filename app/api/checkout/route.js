@@ -31,11 +31,11 @@ export async function POST(request) {
         customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
         customer_email: "example@gmail.com",
-        customer_phone: "9999999999",
+        customer_phone: `Team ID - ${body.teamId}`,
       },
       order_meta: {
         return_url:
-          "https://transfinitte.org/",
+          "https://register.transfinitte.org/",
         notify_url:
           "https://backend.transfinitte.org/api/cashfree-webhook",
 
