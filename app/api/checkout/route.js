@@ -23,7 +23,7 @@ export async function POST(request) {
   );
   const { Leaderdata, err } = await supabaseAdmin
   .from('teams')
-  .select('contact,leader_user_id')
+  .select('contact','leader_user_id')
   .eq('team_id', body.teamId)
   .single();
 
@@ -38,7 +38,7 @@ export async function POST(request) {
 
  const { data, error } = await supabaseAdmin
   .from('users')
-  .select('name, email')
+  .select('name', 'email')
   .eq('user_id', Leaderdata.leader_user_id)
   .single();
 
