@@ -65,7 +65,7 @@ export async function POST(request) {
           "https://backend.transfinitte.org/api/cashfree-webhook",
 
       },
-      order_note: "Team registration payment",
+      order_note: "TF Registration payment",
     };
 	console.log("-----------------------------------");
 	console.log(body);
