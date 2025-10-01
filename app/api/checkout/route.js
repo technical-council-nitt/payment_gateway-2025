@@ -50,7 +50,7 @@ export async function POST(request) {
   try {
 
     const orderRequest = {
-      order_amount: import.meta.env.AMOUNT,
+      order_amount: process.env.AMOUNT,
       order_currency: "INR",
       customer_details: {
         customer_id: body.teamId || "guest_user",
