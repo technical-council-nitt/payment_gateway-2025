@@ -21,7 +21,7 @@ export async function POST(request) {
     process.env.CASHFREE_ID,
     process.env.CASHFREE_SECRET
   );
-  const { Leaderdata, err } = await supabase
+  const { Leaderdata, err } = await supabaseAdmin
   .from('teams')
   .select('contact,leader_user_id')
   .eq('team_id', body.teamId)
@@ -32,9 +32,9 @@ export async function POST(request) {
       return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
     }
 
- const { data, error } = await supabase
+ const { data, error } = await supabaseAdmin
   .from('users')
-  .select(' name, email')
+  .select('name, email')
   .eq('user_id', Leaderdata.leader_user_id)
   .single();
 
