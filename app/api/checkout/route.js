@@ -21,6 +21,27 @@ export async function POST(request) {
     process.env.CASHFREE_ID,
     process.env.CASHFREE_SECRET
   );
+  const { Leaderdata, err } = await supabase
+  .from('teams')
+  .select('contact,leader_user_id')
+  .eq('team_id', body.teamId)
+  .single();
+
+    if (err) {
+      console.error("Supabase user error:", err);
+      return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
+    }
+
+ const { data, error } = await supabase
+  .from('users')
+  .select(' name, email')
+  .eq('user_id', Leaderdata.leader_user_id)
+  .single();
+
+    if (error) {
+      console.error("Supabase user error:", error);
+      return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    }
 
   try {
 
@@ -29,9 +50,9 @@ export async function POST(request) {
       order_currency: "INR",
       customer_details: {
         customer_id: body.teamId || "guest_user",
-        customer_name: body.teamName || "Anonymous",
-        customer_email: "example@gmail.com",
-        customer_phone: `9999999999`,
+        customer_name: data.name || "Anonymous",
+        customer_email: data.email || "example@gmail.com",
+        customer_phone: Leaderdata.contact || "9999999999",
       },
       order_meta: {
         return_url:
