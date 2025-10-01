@@ -17,7 +17,7 @@ export async function POST(request) {
   const body = await request.json();
   console.log(body);
   const cashfree = new Cashfree(
-    CFEnvironment.SANDBOX,
+    CFEnvironment.PRODUCTION,
     process.env.CASHFREE_ID,
     process.env.CASHFREE_SECRET
   );
@@ -28,28 +28,30 @@ export async function POST(request) {
       order_amount: "1",
       order_currency: "INR",
       customer_details: {
-        customer_id: body.userId || "guest_user",
+        customer_id: body.teamId || "guest_user",
         customer_name: body.teamName || "Anonymous",
         customer_email: "example@gmail.com",
-        customer_phone: "9999999999",
+        customer_phone: `9999999999`,
       },
       order_meta: {
         return_url:
-          "https://b694e83d278d.ngrok-free.app/",
+          "https://register.transfinitte.com/",
         notify_url:
-          "https://dae2d657738c.ngrok-free.app/api/cashfree-webhook",
+          "https://backend.transfinitte.org/api/cashfree-webhook",
 
       },
       order_note: "Team registration payment",
     };
-
+	console.log("-----------------------------------");
+	console.log(body);
+	console.log("----------------------------------");
     const response = await cashfree.PGCreateOrder(orderRequest);
     const order = response.data;
     console.log("Cashfree Order Response:", order);
     const { error: InsertErr } = await supabaseAdmin
       .from("payments")
       .insert({
-        team_id: "131825",
+        team_id: body.teamId,
         expiry_time: new Date(order.order_expiry_time),
         order_id: order.order_id,
         payment_session_id: order.payment_session_id,
