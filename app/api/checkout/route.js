@@ -42,7 +42,9 @@ export async function POST(request) {
       },
       order_note: "Team registration payment",
     };
-
+	console.log("-----------------------------------");
+	console.log(body);
+	console.log("----------------------------------");
     const response = await cashfree.PGCreateOrder(orderRequest);
     const order = response.data;
     console.log("Cashfree Order Response:", order);

@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { load } from "@cashfreepayments/cashfree-js";
@@ -97,3 +97,4 @@ function Checkout() {
 }
 
 export default Checkout;
+*/
