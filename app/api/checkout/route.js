@@ -32,6 +32,10 @@ export async function POST(request) {
       return NextResponse.json({ ok: false, error: err.message }, { status: 500 });
     }
 
+  console.log("--------------------------------");
+  console.log(Leaderdata);
+  console.log("----------------------------------");
+
  const { data, error } = await supabaseAdmin
   .from('users')
   .select('name, email')
