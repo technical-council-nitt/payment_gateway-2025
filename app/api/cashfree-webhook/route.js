@@ -32,7 +32,7 @@ console.log("Signature verified high five! ✋");
       .update({ status: data.data.payment.payment_status,
         transaction_id: data.data.payment.cf_payment_id,
         })
-      .eq("team_id", data.data.customer_details.customer_id);
+      .eq("order_id", data.data.order.order_id);
 
     if (Err) {
       console.error("Supabase update payment error:", Err);
